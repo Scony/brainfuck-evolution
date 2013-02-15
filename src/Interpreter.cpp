@@ -65,3 +65,13 @@ Memory * Interpreter::getMemory()
 {
   return &memory;
 }
+
+string Interpreter::interpret(string code)
+{
+  Memory memory;
+
+  hashLen = code.length();
+  int hash[hashLen];
+
+  stack<int> hill;
+}

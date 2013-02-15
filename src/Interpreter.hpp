@@ -15,8 +15,7 @@ class Interpreter
  public:
   Interpreter(std::string code);
   ~Interpreter();
-  void run();
-  Memory * getMemory();
+  static std::string interpret(std::string code);
 };
 
 #endif

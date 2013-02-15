@@ -2,10 +2,44 @@
 
 using namespace std;
 
-Individual::Individual(string pattern) : pattern(pattern)
+Individual::Individual(int range_begin, int range_end, string pattern) : pattern(pattern)
 {
-  code = "++++.";
-  shuffle();
+  code = "";
+  rate = 0;
+
+  int length = Utils::randEx(range_begin,range_end);
+  for(int i = 0; i < length; i++)
+    {
+      int op = Utils::randEx(0,7);
+      switch(op)
+	{
+	case 0:
+	  code += "+";
+	  break;
+	case 1:
+	  code += "-";
+	  break;
+	case 2:
+	  code += ">";
+	  break;
+	case 3:
+	  code += "<";
+	  break;
+	case 4:
+	  code += "[";
+	  break;
+	case 5:
+	  code += "]";
+	  break;
+	case 6:
+	  code += ",";
+	  break;
+	case 7:
+	  code += ".";
+	  break;
+	}
+    }
+  // shuffle();
   eval();
 }
 

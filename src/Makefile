@@ -1,7 +1,7 @@
 LIBS=
 CC=g++
 
-SOURCES=main.cpp Individual.cpp Utils.cpp Exception.cpp
+SOURCES=main.cpp IndividualFactory.cpp KindFactory.cpp Individual.cpp Utils.cpp Exception.cpp
 HEADERS=
 OBJECTS=$(SOURCES:.cpp=.o)
 

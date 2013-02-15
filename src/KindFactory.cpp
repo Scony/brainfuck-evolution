@@ -1,4 +1,4 @@
-#include "IndividualFactory.hpp"
+#include "KindFactory.hpp"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ KindFactory::~KindFactory()
 {
 }
 
-KindFactory::makeIndividual()
+Individual * KindFactory::makeIndividual()
 {
   switch(kind)
     {

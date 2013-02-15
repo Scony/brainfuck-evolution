@@ -4,7 +4,9 @@ using namespace std;
 
 Individual::Individual(string pattern) : pattern(pattern)
 {
-  //
+  code = "++++.";
+  shuffle();
+  eval();
 }
 
 Individual::~Individual()
@@ -29,6 +31,18 @@ void Individual::eval()
 bool Individual::operator<(const Individual & individual) const
 {
   return rate < individual.rate;
+}
+
+list<Individual::Box> Individual::crossingOver(Individual & other)
+{
+  list<Individual::Box> ret;
+  ret.push_back(new Individual(*this));
+
+  return ret;
+}
+
+void Individual::mutate()
+{
 }
 
 long long Individual::getRate()

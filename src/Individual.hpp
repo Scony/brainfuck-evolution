@@ -31,8 +31,8 @@ public:
   Individual(std::string pattern);
   virtual ~Individual();
   bool operator<(const Individual & individual) const;
-  virtual std::list<Box> crossingOver(Individual & other) = 0;
-  virtual void mutate() = 0;
+  virtual std::list<Box> crossingOver(Individual & other);
+  virtual void mutate();
   long long getRate();
   Box box();
   std::string toString();

@@ -1,29 +1,24 @@
-#ifndef EVOLUTION_H
-#define EVOLUTION_H
+#ifndef EVOLUTION_HPP
+#define EVOLUTION_HPP
 
 #include <iostream>
-#include <sstream>
 #include <list>
 
-#include "Client.h"
-#include "Exception.h"
-#include "Utils.h"
-#include "Box.h"
-#include "Pmx.h"
-#include "Heur.h"
+#include "Individual.hpp"
+#include "IndividualFactory.hpp"
 
 class Evolution
 {
-  Graph * graph;
-  Client * client;
-  std::list<Box> population;
-  int algorithm;
+  IndividualFactory * factory;
+
+  std::list<Individual::Box> population;
   int startPopulation;
-  int populationCut;
+  int population;
   int mutations;
-  int frequence;
+
+  void makePopulation();
  public:
-  Evolution(int argc, char ** argv, Client * client);
+  Evolution(IndividualFactory * factory);
   ~Evolution();
   void run();
 };

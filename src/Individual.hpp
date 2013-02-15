@@ -1,37 +1,40 @@
-#ifndef INDIVIDUAL_H
-#define INDIVIDUAL_H
+#ifndef INDIVIDUAL_HPP
+#define INDIVIDUAL_HPP
 
 #include <iostream>
-#include <sstream>
-#include <stdlib.h>
-#include <utility>
+// #include <sstream>
+// #include <stdlib.h>
+// #include <utility>
 
-#include "Graph.h"
-#include "Utils.h"
+#include "Utils.hpp"
 
 class Individual
 {
- protected:
-  int n;
-  int * ord;
+protected:
+  std::string code;
+  std::string & pattern;
   long long rate;
-  Graph * graph;
-  int randEx(int range_min, int range_max);
-  void swap(int & a, int & b);
+
+  void shuffle();
   void eval();
- public:
-  Individual(Graph * graph);
-  Individual(std::string individual, Graph * graph);
-  Individual(int n, Graph * graph, int * ord);
-  Individual(const Individual & individual);
+public:
+  struct Box
+  {
+    Individual * individual;
+    Box(Individual * individual);
+    ~Box();
+    bool operator<(const Box & box) const;
+    void remove();
+  };
+
+  Individual(std::string pattern);
   virtual ~Individual();
   bool operator<(const Individual & individual) const;
-  virtual std::pair<Individual*,Individual*> crossingOver(Individual & other);
-  virtual void mutate();
+  virtual std::list<Box> crossingOver(Individual & other) = 0;
+  virtual void mutate() = 0;
   long long getRate();
-  int getOrd(int index);
+  Box box();
   std::string toString();
-  void shuffle();
 };
 
 #endif

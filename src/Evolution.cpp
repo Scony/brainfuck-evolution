@@ -1,37 +1,23 @@
-#include "Evolution.h"
+#include "Evolution.hpp"
 
 using namespace std;
 
-Evolution::Evolution(int argc, char ** argv, Client * client)
+Evolution::Evolution(IndividualFactory * factory)
 {
-  if(argc < 4)
-    throw new Exception("Too few arguments");
+  this->factory = factory;
 
-  this->algorithm = Utils::str2int(string(argv[3]));
-  this->client = client;
-  this->graph = new Graph(this->client->request("INIT"));
-  this->startPopulation = Utils::str2int(client->request("STP"));
-  this->populationCut = Utils::str2int(client->request("POP"));
-  this->mutations = Utils::str2int(client->request("MUT"));
-  this->frequence = Utils::str2int(client->request("FRQ"));
-
-  switch(this->algorithm)
-    {
-    case 2:
-      this->population.push_back(Box(new Heur(client->request("BST"),this->graph)));
-      for(int i = 0; i < this->startPopulation; i++)
-	population.push_back(Box(new Heur(this->graph)));
-      break;
-    default:
-      this->population.push_back(Box(new Pmx(client->request("BST"),this->graph)));
-      for(int i = 0; i < this->startPopulation; i++)
-	population.push_back(Box(new Pmx(this->graph)));
-    }
+  startPopulation = 100;
+  population = 15;
+  mutations = 5;
 }
 
 Evolution::~Evolution()
 {
-  delete this->graph;
+  while(population.size())
+    {
+      population.back().remove();
+      population.pop_back();
+    }
 }
 
 void Evolution::run()
@@ -44,21 +30,25 @@ void Evolution::run()
       cout << population.front().individual->getRate() << endl;
 
       //selection
-      while(population.size() > (unsigned int)this->populationCut)
+      while(population.size() > (unsigned int)populationCut)
 	{
-	  delete population.back().individual;
+	  delete population.back().remove();
 	  population.pop_back();
 	}
 
       //crossing over
-      list<Box> newPopulation;
-      for(list<Box>::iterator j = population.begin(); j != population.end(); j++)
-      	for(list<Box>::iterator k = j; k != population.end(); k++)
-      	  if(j != k)
+      list<Individual::Box> newPopulation;
+      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
+      	for(list<Individual::Box>::iterator j = i; j != population.end(); j++)
+      	  if(i != j)
       	    {
-      	      pair<Individual*,Individual*> tmp = j->individual->crossingOver(*(k->individual));
-      	      newPopulation.push_back(Box(tmp.first));
-      	      newPopulation.push_back(Box(tmp.second));
+	      list<Individual::Box> crossProducts = i->individual->crossingOver(*(j->individual));
+	      // mozna w nawiasie                /\
+	      while(!crossProducts->empty())
+		{
+		  newPopulation.push_back(crossProducts.front());
+		  crossProducts.pop_front();
+		}
       	    }
       while(!newPopulation.empty())
         {
@@ -66,32 +56,17 @@ void Evolution::run()
       	  newPopulation.pop_front();
         }
 
-      //sync
-      if((++counter % this->frequence) == 0)
-  	{
-	  cout << "S" << endl;
-  	  counter = 0;
-
-	  switch(this->algorithm)
-	    {
-	    case 2:
-	      population.push_back(Box(new Heur(client->request("IND " + population.front().individual->toString()),this->graph)));
-	      break;
-	    default:
-	      population.push_back(Box(new Pmx(client->request("IND " + population.front().individual->toString()),this->graph)));
-	      break;
-	    }
-
-	  this->populationCut = Utils::str2int(client->request("POP"));
-	  this->mutations = Utils::str2int(client->request("MUT"));
-	  this->frequence = Utils::str2int(client->request("FRQ"));
-  	}
-
       //mutation
-      for(list<Box>::iterator j = population.begin(); j != population.end(); j++)
-      	if(Utils::randEx(1,100) <= this->mutations)
-  	  j->individual->mutate();
+      for(list<Box>::iterator i = population.begin(); i != population.end(); i++)
+      	if(Utils::randEx(1,100) <= mutations)
+  	  i->individual->mutate();
 
 
     }
+}
+
+Evolution::makePopulation()
+{
+  for(int i = 0; i < startPopulation; i++)
+    population.push_back(factory->makeIndividual()->box());
 }

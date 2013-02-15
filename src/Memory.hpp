@@ -5,7 +5,7 @@ class Memory
 {
   struct Cell
   {
-    unsigned int * cell;
+    unsigned char * cell;
     Cell * next;
     Cell * previous;
     Cell();
@@ -20,6 +20,7 @@ public:
   void sub();
   void next();
   void previous();
+  void write(unsigned char c);
   unsigned int read();
   void front();
 };

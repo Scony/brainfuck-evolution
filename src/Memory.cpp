@@ -6,7 +6,7 @@ using namespace std;
 
 Memory::Cell::Cell()
 {
-  cell = new unsigned int(0);
+  cell = new unsigned char(0);
   next = NULL;
   previous = NULL;
 }
@@ -69,6 +69,11 @@ void Memory::previous()
       ptr->previous->next = ptr;
       ptr = ptr->previous;
     }
+}
+
+void Memory::write(unsigned char c)
+{
+  *ptr->cell = c;
 }
 
 unsigned int Memory::read()

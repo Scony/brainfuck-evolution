@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Individual::Individual(string pattern) : this->pattern = pattern
+Individual::Individual(string pattern) : pattern(pattern)
 {
   //
 }
@@ -13,10 +13,10 @@ Individual::~Individual()
 
 void Individual::shuffle()
 {
-  for(int i = 0; i < n; i++)
+  for(int i = 0; i < code.length(); i++)
     {
-      int j = randEx(1,n-1);
-      Utils::swapc(ord[i],ord[j]);
+      int j = Utils::randEx(1,code.length()-1);
+      Utils::swapc(code[i],code[j]);
     }
 }
 

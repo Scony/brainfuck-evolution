@@ -2,6 +2,7 @@
 #define INDIVIDUAL_HPP
 
 #include <iostream>
+#include <list>
 // #include <sstream>
 // #include <stdlib.h>
 // #include <utility>

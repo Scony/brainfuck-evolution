@@ -1,17 +1,17 @@
 LIBS=
 CC=g++
 
-SOURCES=main.cpp File.cpp Memory.cpp Parser.cpp Exception.cpp Interpreter.cpp
+SOURCES=main.cpp Individual.cpp Utils.cpp Exception.cpp
 HEADERS=
 OBJECTS=$(SOURCES:.cpp=.o)
 
-all: bfgcv
+all: bfevo.out
 
-bfgcv: $(OBJECTS) 
+bfevo.out: $(OBJECTS) 
 	$(CC) -o $@ $(OBJECTS) $(LIBS)
 
 $(OBJECTS): %.o: %.cpp $(HEADERS)
 	$(CC) -c $< -o $@
 	
 clean:
-	-rm -rf bfgcv *.o *~
+	-rm -rf bfevo.out *.o *~

@@ -43,7 +43,7 @@ string Interpreter::interpret(string code)
 
   for(int i = 0; i < code.length(); i++)
     {
-      cout << "####" << i << "####\n";
+      // cout << "####" << i << "####\n";
       switch(code[i])
 	{
 	case '+':

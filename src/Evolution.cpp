@@ -8,7 +8,7 @@ Evolution::Evolution(IndividualFactory * factory)
 
   startPopulation = 50;
   populationCut = 30;
-  mutations = 70;
+  mutations = 100;
 
   makePopulation();
 }
@@ -29,7 +29,8 @@ void Evolution::run()
     {
       //sort
       population.sort();
-      cout << population.size() << "::" << population.front().individual->getRate() << "::" << Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::" << endl;
+      cout << population.size() << "::" << population.front().individual->getRate() << "::";
+      cout << Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::" << population.front().individual->toString() << endl;
 
       //selection
       while(population.size() > (unsigned int)populationCut)
@@ -45,13 +46,14 @@ void Evolution::run()
       	  if(i != j)
       	    {
 	      list<Individual::Box> crossProducts = i->individual->crossingOver(*(j->individual));
-	      // mozna w nawiasie                /\
-	      while(!crossProducts->empty())
+	      // cout << "/" << crossProducts.size() << "\\";
+	      while(!crossProducts.empty())
 		{
 		  newPopulation.push_back(crossProducts.front());
 		  crossProducts.pop_front();
 		}
       	    }
+
       while(!newPopulation.empty())
         {
       	  population.push_back(newPopulation.front());

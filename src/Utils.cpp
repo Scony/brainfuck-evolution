@@ -23,6 +23,11 @@ string Utils::int2str(int in)
   return string(buff);
 }
 
+int Utils::min(int a, int b)
+{
+  return a < b ? a : b;
+}
+
 int Utils::str2int(string in)
 {
   int out;

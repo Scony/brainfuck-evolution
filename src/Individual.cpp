@@ -2,8 +2,9 @@
 
 using namespace std;
 
-Individual::Individual(int range_begin, int range_end, string pattern) : pattern(pattern)
+Individual::Individual(int range_begin, int range_end, string pattern)
 {
+  this->pattern = pattern;
   code = "";
   rate = 0;
 
@@ -58,17 +59,21 @@ void Individual::shuffle()
 
 void Individual::eval()
 {
-  // cout << "ev::" << Interpreter::interpret(code) << endl;
-  string tmp = Interpreter::interpret(code);
-  for(int i = 0; i < tmp.length(); i++)
-    cout << "::" << tmp[i] << "x" << (int)(unsigned char)tmp[i] << endl;
-  //out vs pattern
+  string output = Interpreter::interpret(code);
+  // for(int i = 0; i < output.length(); i++)
+  //   cout << "::" << output[i] << "x" << (int)(unsigned char)output[i] << endl;
+  rate = 0;
+  for(int i = 0; i < pattern.length(); i++)
+    if(i < output.length())
+      rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
+    else
+      rate += 255;
 }
 
-bool Individual::operator<(const Individual & individual) const
-{
-  return rate < individual.rate;
-}
+// bool Individual::operator<(const Individual & individual) const
+// {
+//   return rate > individual.rate;
+// }
 
 list<Individual::Box> Individual::crossingOver(Individual & other)
 {
@@ -85,6 +90,11 @@ void Individual::mutate()
 long long Individual::getRate()
 {
   return rate;
+}
+
+Individual::Box Individual::box()
+{
+  return Box(this);
 }
 
 string Individual::toString()

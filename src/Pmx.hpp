@@ -1,20 +1,19 @@
-#ifndef PMX_H
-#define PMX_H
+#ifndef PMX_HPP
+#define PMX_HPP
 
-#include <utility>
+#include <iostream>
+#include <list>
 
-#include "Individual.h"
+#include "Individual.hpp"
 
 class Pmx : public Individual
 {
   void inv(int left, int right);
  public:
-  Pmx(Graph * graph);
-  Pmx(std::string individual, Graph * graph);
-  Pmx(int n, Graph * graph, int * ord);
-  Pmx(const Pmx & pmx);
+  Pmx(int range_begin, int range_end, std::string pattern);
+  Pmx(const Individual & origin);
   ~Pmx();
-  std::pair<Individual*,Individual*> crossingOver(Individual & x);
+  std::list<Box> crossingOver(Individual & other);
   void mutate();
 };
 

@@ -3,6 +3,7 @@
 
 #include "Exception.hpp"
 #include "KindFactory.hpp"
+#include "Evolution.hpp"
 
 using namespace std;
 
@@ -11,10 +12,10 @@ int main(int argc, char * argv[])
   try
     {
       srand(time(0));
-      KindFactory x(0,10,50,"xxxx");
-      Individual * it = x.makeIndividual();
-      cout << it->toString() << endl;
-      delete it;
+      KindFactory pmx(1,50,100,"hi");
+      IndividualFactory * ifac = &pmx;
+      Evolution evolution(ifac);
+      evolution.run();
     }
   catch(Exception * e)
     {

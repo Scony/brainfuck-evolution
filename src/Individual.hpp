@@ -11,7 +11,7 @@ class Individual
 {
 protected:
   std::string code;
-  std::string & pattern;
+  std::string pattern;
   long long rate;
 
   void shuffle();
@@ -28,7 +28,7 @@ public:
 
   Individual(int range_begin, int range_end, std::string pattern);
   virtual ~Individual();
-  bool operator<(const Individual & individual) const;
+  // bool operator<(const Individual & individual) const;
   virtual std::list<Box> crossingOver(Individual & other);
   virtual void mutate();
   long long getRate();

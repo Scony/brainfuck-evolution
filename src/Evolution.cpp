@@ -6,9 +6,11 @@ Evolution::Evolution(IndividualFactory * factory)
 {
   this->factory = factory;
 
-  startPopulation = 100;
-  population = 15;
-  mutations = 5;
+  startPopulation = 50;
+  populationCut = 30;
+  mutations = 70;
+
+  makePopulation();
 }
 
 Evolution::~Evolution()
@@ -27,12 +29,12 @@ void Evolution::run()
     {
       //sort
       population.sort();
-      cout << population.front().individual->getRate() << endl;
+      cout << population.size() << "::" << population.front().individual->getRate() << "::" << Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::" << endl;
 
       //selection
       while(population.size() > (unsigned int)populationCut)
 	{
-	  delete population.back().remove();
+	  population.back().remove();
 	  population.pop_back();
 	}
 
@@ -57,7 +59,7 @@ void Evolution::run()
         }
 
       //mutation
-      for(list<Box>::iterator i = population.begin(); i != population.end(); i++)
+      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
       	if(Utils::randEx(1,100) <= mutations)
   	  i->individual->mutate();
 
@@ -65,7 +67,7 @@ void Evolution::run()
     }
 }
 
-Evolution::makePopulation()
+void Evolution::makePopulation()
 {
   for(int i = 0; i < startPopulation; i++)
     population.push_back(factory->makeIndividual()->box());

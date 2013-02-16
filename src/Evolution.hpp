@@ -13,7 +13,7 @@ class Evolution
 
   std::list<Individual::Box> population;
   int startPopulation;
-  int population;
+  int populationCut;
   int mutations;
 
   void makePopulation();

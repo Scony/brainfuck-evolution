@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
   try
     {
       srand(time(0));
-      KindFactory x(0,10,200,"xxxx");
+      KindFactory x(0,10,20,"xxxx");
       Individual * it = x.makeIndividual();
       cout << it->toString() << endl;
       delete it;

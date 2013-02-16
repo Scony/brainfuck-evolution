@@ -58,7 +58,10 @@ void Individual::shuffle()
 
 void Individual::eval()
 {
-  //interpret
+  // cout << "ev::" << Interpreter::interpret(code) << endl;
+  string tmp = Interpreter::interpret(code);
+  for(int i = 0; i < tmp.length(); i++)
+    cout << "::" << tmp[i] << "x" << (int)(unsigned char)tmp[i] << endl;
   //out vs pattern
 }
 

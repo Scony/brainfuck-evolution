@@ -5,6 +5,7 @@
 #include <list>
 
 #include "Utils.hpp"
+#include "Interpreter.hpp"
 
 class Individual
 {

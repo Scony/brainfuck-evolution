@@ -20,6 +20,8 @@ Individual * KindFactory::makeIndividual()
     {
     case 1:
       return new Pmx(range_begin,range_end,pattern);
+    case 2:
+      return new Sx(range_begin,range_end,pattern);
     default:
       return new Individual(range_begin,range_end,pattern);
     }

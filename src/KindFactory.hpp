@@ -6,6 +6,7 @@
 #include "IndividualFactory.hpp"
 #include "Individual.hpp"
 #include "Pmx.hpp"
+#include "Sx.hpp"
 
 class KindFactory : public IndividualFactory
 {

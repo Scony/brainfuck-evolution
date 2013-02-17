@@ -6,9 +6,21 @@ Evolution::Evolution(IndividualFactory * factory)
 {
   this->factory = factory;
 
-  startPopulation = 50;
-  populationCut = 30;
+  startPopulation = 100;
+  populationCut = 50;
   mutations = 100;
+
+  makePopulation();
+}
+
+Evolution::Evolution(IndividualFactory * factory, int startPopulation,
+		     int populationCut, int mutations)
+{
+  this->factory = factory;
+
+  this->startPopulation = startPopulation;
+  this->populationCut = populationCut;
+  this->mutations = mutations;
 
   makePopulation();
 }

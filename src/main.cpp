@@ -11,10 +11,13 @@ int main(int argc, char * argv[])
 {
   try
     {
+      if(argc < 7)
+	throw new Exception("To few arguments");
       srand(time(0));
-      KindFactory pmx(1,50,100,"hi");
+      cout << "Pattern:" << argv[3] << endl;
+      KindFactory pmx(1,Utils::str2int(argv[1]),Utils::str2int(argv[2]),argv[3]);
       IndividualFactory * ifac = &pmx;
-      Evolution evolution(ifac);
+      Evolution evolution(ifac,Utils::str2int(argv[4]),Utils::str2int(argv[5]),Utils::str2int(argv[6]));
       evolution.run();
     }
   catch(Exception * e)

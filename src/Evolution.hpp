@@ -19,6 +19,8 @@ class Evolution
   void makePopulation();
  public:
   Evolution(IndividualFactory * factory);
+  Evolution(IndividualFactory * factory, int startPopulation,
+	    int populationCut, int mutations);
   ~Evolution();
   void run();
 };

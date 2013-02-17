@@ -9,20 +9,22 @@ Evolution::Evolution(IndividualFactory * factory)
   startPopulation = 100;
   populationCut = 50;
   mutations = 100;
+  injections = 0;
 
-  makePopulation();
+  fillPopulation(startPopulation);
 }
 
 Evolution::Evolution(IndividualFactory * factory, int startPopulation,
-		     int populationCut, int mutations)
+		     int populationCut, int mutations, int injections)
 {
   this->factory = factory;
 
   this->startPopulation = startPopulation;
   this->populationCut = populationCut;
   this->mutations = mutations;
+  this->injections = injections;
 
-  makePopulation();
+  fillPopulation(startPopulation);
 }
 
 Evolution::~Evolution()
@@ -50,6 +52,9 @@ void Evolution::run()
 	  population.back().remove();
 	  population.pop_back();
 	}
+
+      //injection
+      fillPopulation(injections);
 
       //crossing over
       list<Individual::Box> newPopulation;
@@ -81,8 +86,8 @@ void Evolution::run()
     }
 }
 
-void Evolution::makePopulation()
+void Evolution::fillPopulation(int count)
 {
-  for(int i = 0; i < startPopulation; i++)
+  for(int i = 0; i < count; i++)
     population.push_back(factory->makeIndividual()->box());
 }

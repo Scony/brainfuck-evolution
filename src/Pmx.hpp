@@ -8,6 +8,7 @@
 
 class Pmx : public Individual
 {
+  void rangeRand(int left, int right);
   void inv(int left, int right);
  public:
   Pmx(int range_begin, int range_end, std::string pattern);

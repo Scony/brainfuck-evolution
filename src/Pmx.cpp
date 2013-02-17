@@ -15,6 +15,41 @@ Pmx::~Pmx()
 {
 }
 
+void Pmx::rangeRand(int left, int right)
+{
+  while(left <= right)
+    {
+      int op = Utils::randEx(0,7);
+      switch(op)
+	{
+	case 0:
+	  code[left++] = '+';
+	  break;
+	case 1:
+	  code[left++] = '-';
+	  break;
+	case 2:
+	  code[left++] = '>';
+	  break;
+	case 3:
+	  code[left++] = '<';
+	  break;
+	case 4:
+	  code[left++] = '[';
+	  break;
+	case 5:
+	  code[left++] = ']';
+	  break;
+	case 6:
+	  code[left++] = ',';
+	  break;
+	case 7:
+	  code[left++] = '.';
+	  break;
+	}
+    }
+}
+
 void Pmx::inv(int left, int right)
 {
   if(left < right)
@@ -52,9 +87,9 @@ void Pmx::mutate()
   int b = Utils::randEx(0,code.length()-1);
 
   if(a < b)
-    inv(a,b);
+    rangeRand(a,b);
   else
-    inv(b,a);
+    rangeRand(b,a);
 
   eval();
 }

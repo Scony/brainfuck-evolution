@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
 {
   try
     {
-      if(argc < 7)
+      if(argc < 8)
 	throw new Exception("To few arguments");
       srand(time(0));
       cout << "Pattern:" << argv[3] << endl;
@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
       IndividualFactory * ifac = &pmx;
       // Individual * x = pmx.makeIndividual();
       // cout << x->toString() << "::" << x->getRate() << endl;
-      Evolution evolution(ifac,Utils::str2int(argv[4]),Utils::str2int(argv[5]),Utils::str2int(argv[6]));
+      Evolution evolution(ifac,Utils::str2int(argv[4]),Utils::str2int(argv[5]),Utils::str2int(argv[6]),Utils::str2int(argv[7]));
       evolution.run();
     }
   catch(Exception * e)

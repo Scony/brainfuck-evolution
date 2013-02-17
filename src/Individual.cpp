@@ -5,6 +5,7 @@ using namespace std;
 Individual::Individual(int range_begin, int range_end, string pattern)
 {
   this->pattern = pattern;
+  range_max = range_end;
   code = "";
   rate = 0;
 
@@ -40,7 +41,6 @@ Individual::Individual(int range_begin, int range_end, string pattern)
 	  break;
 	}
     }
-  // shuffle();
   eval();
 }
 
@@ -94,34 +94,46 @@ void Individual::eval()
   
   // rate = min;
 
-  // version 3
+  // // version 3
+  // // 
+  // string output = Interpreter::interpret(code);
+  // output = output.substr(0,pattern.length()*5);
+  // rate = 0;
+
+  // long long min = 99999999;
+  // int minj = 99999999;
+
+  // if(!output.length())
+  //   min = pattern.length() * 255 * output.length();
+  // else
+  //   for(int j = 0; j < output.length(); j++)
+  //     {
+  // 	int local = 0;
+  // 	for(int i = 0; i < pattern.length(); i++)
+  // 	  if(i + j < output.length())
+  // 	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
+  // 	  else
+  // 	    local += 255;
+  // 	if(local < min)
+  // 	  {
+  // 	    min = local;
+  // 	    minj = j;
+  // 	  }
+  //     }
+  
+  // rate = min * output.length() + minj;
+
+  // version 5
   // 
   string output = Interpreter::interpret(code);
-  output = output.substr(0,pattern.length()*5);
   rate = 0;
+  for(int i = 0; i < pattern.length(); i++)
+    if(i < output.length())
+      rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]) * range_max;
+    else
+      rate += 255 * range_max;
 
-  long long min = 99999999;
-  int minj = 99999999;
-
-  if(!output.length())
-    min = pattern.length() * 255 * output.length();
-  else
-    for(int j = 0; j < output.length(); j++)
-      {
-	int local = 0;
-	for(int i = 0; i < pattern.length(); i++)
-	  if(i + j < output.length())
-	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
-	  else
-	    local += 255;
-	if(local < min)
-	  {
-	    min = local;
-	    minj = j;
-	  }
-      }
-  
-  rate = min * output.length() + minj;
+  rate += code.length();
 }
 
 bool Individual::operator<(const Individual & individual) const

@@ -15,12 +15,13 @@ class Evolution
   int startPopulation;
   int populationCut;
   int mutations;
+  int injections;
 
-  void makePopulation();
+  void fillPopulation(int count);
  public:
   Evolution(IndividualFactory * factory);
   Evolution(IndividualFactory * factory, int startPopulation,
-	    int populationCut, int mutations);
+	    int populationCut, int mutations, int injections);
   ~Evolution();
   void run();
 };

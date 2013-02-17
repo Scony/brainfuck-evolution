@@ -13,6 +13,7 @@ protected:
   std::string code;
   std::string pattern;
   long long rate;
+  int range_max;
 
   void shuffle();
   void eval();

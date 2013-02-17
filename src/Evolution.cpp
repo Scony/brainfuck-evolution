@@ -38,7 +38,6 @@ Evolution::~Evolution()
 
 void Evolution::run()
 {
-  int counter = 0;
   while(1)
     {
       //sort
@@ -46,36 +45,53 @@ void Evolution::run()
       cout << population.size() << "::" << population.front().individual->getRate() << "::";
       cout << Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::" << population.front().individual->toString() << endl;
 
-      //selection
-      while(population.size() > (unsigned int)populationCut)
+      //selection & crossing over
+      long long sum[population.size()];
+      Individual * ptr[population.size()];
+      int it = 0;
+      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
 	{
-	  population.back().remove();
-	  population.pop_back();
+	  sum[it] = i->individual->getRate();
+	  ptr[it++] = i->individual;
+	}
+      Utils::invertll(sum,0,population.size()-1);
+      for(int i = 1; i < population.size(); i++)
+	sum[i] += sum[i-1];
+
+      list<Individual::Box> newPopulation;
+      while(newPopulation.size() < populationCut)
+	{
+	  //cTODO: avoid self-crossing
+	  int a = Utils::randEx(0,sum[population.size()-1]-1);
+	  int b = Utils::randEx(0,sum[population.size()-1]-1);
+	  int aIt = 0;
+	  int bIt = 0;
+	  while(a >= sum[aIt])
+	    aIt++;
+	  while(b >= sum[bIt])
+	    bIt++;
+	  list<Individual::Box> crossProducts = ptr[aIt]->crossingOver(*(ptr[bIt]));
+	  while(!crossProducts.empty())
+	    {
+	      newPopulation.push_back(crossProducts.front());
+	      crossProducts.pop_front();
+	    }
 	}
 
-      //injection
-      fillPopulation(injections);
-
-      //crossing over
-      list<Individual::Box> newPopulation;
-      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
-      	for(list<Individual::Box>::iterator j = i; j != population.end(); j++)
-      	  if(i != j)
-      	    {
-	      list<Individual::Box> crossProducts = i->individual->crossingOver(*(j->individual));
-	      // cout << "/" << crossProducts.size() << "\\";
-	      while(!crossProducts.empty())
-		{
-		  newPopulation.push_back(crossProducts.front());
-		  crossProducts.pop_front();
-		}
-      	    }
+      while(!population.empty())
+        {
+      	  population.front().remove();
+      	  population.pop_front();
+        }
 
       while(!newPopulation.empty())
         {
       	  population.push_back(newPopulation.front());
       	  newPopulation.pop_front();
         }
+
+      //injection
+      fillPopulation(injections);
 
       //mutation
       for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)

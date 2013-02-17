@@ -16,6 +16,13 @@ void Utils::swapc(char & a, char & b)
   b = tmp;
 }
 
+void Utils::swapll(long long & a, long long & b)
+{
+  long long tmp = a;
+  a = b;
+  b = tmp;
+}
+
 string Utils::int2str(int in)
 {
   char buff[16];
@@ -46,4 +53,13 @@ int Utils::randEx(int range_min, int range_max)
       range_max = tmp_range;
     }
   return (int)(range_max ? range_min + rand() / (RAND_MAX + 1.0) * (double) (range_max + 1) : range_min);
+}
+
+void Utils::invertll(long long * array, int left, int right)
+{
+  if(left < right)
+    {
+      Utils::swapll(array[left],array[right]);
+      invertll(array,left+1,right-1);
+    }
 }

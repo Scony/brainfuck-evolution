@@ -50,15 +50,6 @@ void Pmx::rangeRand(int left, int right)
     }
 }
 
-void Pmx::inv(int left, int right)
-{
-  if(left < right)
-    {
-      Utils::swapc(code[left],code[right]);
-      inv(left+1,right-1);
-    }
-}
-
 std::list<Individual::Box> Pmx::crossingOver(Individual & other)
 {
   int width = Utils::randEx(1,Utils::min(code.length(),other.toString().length()));

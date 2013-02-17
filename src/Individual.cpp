@@ -59,21 +59,75 @@ void Individual::shuffle()
 
 void Individual::eval()
 {
+  // // version 1
+  // // 
+  // string output = Interpreter::interpret(code);
+  // rate = 0;
+  // for(int i = 0; i < pattern.length(); i++)
+  //   if(i < output.length())
+  //     rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
+  //   else
+  //     rate += 255;
+
+  // // version 2
+  // // 
+  // string output = Interpreter::interpret(code);
+  // output = output.substr(0,pattern.length()*5);
+  // rate = 0;
+
+  // long long min = 99999999;
+
+  // if(!output.length())
+  //   min = pattern.length() * 255;
+  // else
+  //   for(int j = 0; j < output.length(); j++)
+  //     {
+  // 	int local = 0;
+  // 	for(int i = 0; i < pattern.length(); i++)
+  // 	  if(i + j < output.length())
+  // 	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
+  // 	  else
+  // 	    local += 255;
+  // 	if(local < min)
+  // 	  min = local;
+  //     }
+  
+  // rate = min;
+
+  // version 3
+  // 
   string output = Interpreter::interpret(code);
-  // for(int i = 0; i < output.length(); i++)
-  //   cout << "::" << output[i] << "x" << (int)(unsigned char)output[i] << endl;
+  output = output.substr(0,pattern.length()*5);
   rate = 0;
-  for(int i = 0; i < pattern.length(); i++)
-    if(i < output.length())
-      rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
-    else
-      rate += 255;
+
+  long long min = 99999999;
+  int minj = 99999999;
+
+  if(!output.length())
+    min = pattern.length() * 255 * output.length();
+  else
+    for(int j = 0; j < output.length(); j++)
+      {
+	int local = 0;
+	for(int i = 0; i < pattern.length(); i++)
+	  if(i + j < output.length())
+	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
+	  else
+	    local += 255;
+	if(local < min)
+	  {
+	    min = local;
+	    minj = j;
+	  }
+      }
+  
+  rate = min * output.length() + minj;
 }
 
-// bool Individual::operator<(const Individual & individual) const
-// {
-//   return rate > individual.rate;
-// }
+bool Individual::operator<(const Individual & individual) const
+{
+  return rate > individual.rate;
+}
 
 list<Individual::Box> Individual::crossingOver(Individual & other)
 {

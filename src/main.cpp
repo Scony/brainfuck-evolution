@@ -15,7 +15,7 @@ int main(int argc, char * argv[])
       if(argc < 14)
 	throw new Exception((string)"To few arguments. Usage:\n ./command [algorithm kind] [individual kind] [range begin]"
 			    + (string)" [range end] [pattern] [initial size] [size] [q] [pc] [pm] [n] [debug] [mod]\n\n"
-			    + (string)"1 - Roulette\n2 - Tournamenr\n3 - Basic RxR\n\n1 - Pmx\n2 - Sx\n3 - Rsx\n4 - Eru");
+			    + (string)"1 - Roulette\n2 - Tournament\n3 - Basic RxR\n\n1 - Pmx\n2 - Sx\n3 - Rsx\n4 - Eru");
       srand(time(0));
 
       if(Utils::str2int(argv[12]))

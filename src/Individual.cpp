@@ -59,81 +59,81 @@ void Individual::shuffle()
 
 void Individual::eval()
 {
-  // // version 1
-  // // 
-  // string output = Interpreter::interpret(code);
-  // rate = 0;
-  // for(int i = 0; i < pattern.length(); i++)
-  //   if(i < output.length())
-  //     rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
-  //   else
-  //     rate += 255;
+  switch(1)
+    {
+    case 1:			// simple ascii codes difference
+      string output = Interpreter::interpret(code);
+      rate = 0;
+      for(int i = 0; i < pattern.length(); i++)
+	if(i < output.length())
+	  rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
+	else
+	  rate += 255;
+      break;
+    case 2:			// floating pattern
+      string output = Interpreter::interpret(code);
+      output = output.substr(0,pattern.length()*5);
+      rate = 0;
 
-  // // version 2
-  // // 
-  // string output = Interpreter::interpret(code);
-  // output = output.substr(0,pattern.length()*5);
-  // rate = 0;
+      long long min = 99999999;
 
-  // long long min = 99999999;
-
-  // if(!output.length())
-  //   min = pattern.length() * 255;
-  // else
-  //   for(int j = 0; j < output.length(); j++)
-  //     {
-  // 	int local = 0;
-  // 	for(int i = 0; i < pattern.length(); i++)
-  // 	  if(i + j < output.length())
-  // 	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
-  // 	  else
-  // 	    local += 255;
-  // 	if(local < min)
-  // 	  min = local;
-  //     }
+      if(!output.length())
+	min = pattern.length() * 255;
+      else
+	for(int j = 0; j < output.length(); j++)
+	  {
+	    int local = 0;
+	    for(int i = 0; i < pattern.length(); i++)
+	      if(i + j < output.length())
+		local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
+	      else
+		local += 255;
+	    if(local < min)
+	      min = local;
+	  }
   
-  // rate = min;
+      rate = min;
+      break;
+    case 3:			// floating pattern + code length
+      string output = Interpreter::interpret(code);
+      output = output.substr(0,pattern.length()*5);
+      rate = 0;
 
-  // // version 3
-  // // 
-  // string output = Interpreter::interpret(code);
-  // output = output.substr(0,pattern.length()*5);
-  // rate = 0;
+      long long min = 99999999;
+      int minj = 99999999;
 
-  // long long min = 99999999;
-  // int minj = 99999999;
-
-  // if(!output.length())
-  //   min = pattern.length() * 255 * output.length();
-  // else
-  //   for(int j = 0; j < output.length(); j++)
-  //     {
-  // 	int local = 0;
-  // 	for(int i = 0; i < pattern.length(); i++)
-  // 	  if(i + j < output.length())
-  // 	    local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
-  // 	  else
-  // 	    local += 255;
-  // 	if(local < min)
-  // 	  {
-  // 	    min = local;
-  // 	    minj = j;
-  // 	  }
-  //     }
+      if(!output.length())
+	min = pattern.length() * 255 * output.length();
+      else
+	for(int j = 0; j < output.length(); j++)
+	  {
+	    int local = 0;
+	    for(int i = 0; i < pattern.length(); i++)
+	      if(i + j < output.length())
+		local += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i+j]);
+	      else
+		local += 255;
+	    if(local < min)
+	      {
+		min = local;
+		minj = j;
+	      }
+	  }
   
-  // rate = min * output.length() + minj;
+      rate = min * output.length() + minj;
+      break;
+    default:			// simple ascii difference + code length
+      string output = Interpreter::interpret(code);
+      rate = 0;
+      for(int i = 0; i < pattern.length(); i++)
+	if(i < output.length())
+	  rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]) * range_max;
+	else
+	  rate += 255 * range_max;
 
-  // version 5
-  // 
-  string output = Interpreter::interpret(code);
-  rate = 0;
-  for(int i = 0; i < pattern.length(); i++)
-    if(i < output.length())
-      rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]) * range_max;
-    else
-      rate += 255 * range_max;
-
-  rate += code.length();
+      rate += code.length();
+      break;
+    }
 }
 
 bool Individual::operator<(const Individual & individual) const

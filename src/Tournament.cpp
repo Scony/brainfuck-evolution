@@ -1,4 +1,5 @@
 #include "Tournament.hpp"
+#include "Debug.hpp"
 
 using namespace std;
 
@@ -29,11 +30,26 @@ void Tournament::run()
     {
       // sort
       population.sort();
-      cout << population.size() << "::" << population.front().individual->getFitness() << "::";
-      cout /*<< Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::"*/ << population.front().individual->toString();
-      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
-	cout << " " << i->individual->getFitness();
-      cout << endl;
+      if(Debug::instance()->on)
+	{
+	  cout << population.size() << "::" << population.front().individual->getFitness() << "::";
+	  cout << population.front().individual->toString();
+	  for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
+	    cout << " " << i->individual->getFitness();
+	  cout << endl;
+	}
+      else
+	{
+	  Debug::instance()->generation++;
+	  if(!(Debug::instance()->generation % Debug::instance()->threshold))
+	    {
+	      cout << population.size() << "::" << population.front().individual->getFitness() << "::";
+	      cout << "::" << population.front().individual->toString();
+	      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
+		cout << " " << i->individual->getFitness();
+	      cout << endl;
+	    }
+	}
 
       // cut
       while(population.size() > size)

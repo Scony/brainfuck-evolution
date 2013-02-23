@@ -3,11 +3,11 @@
 using namespace std;
 
 Sx::Sx(int range_begin, int range_end, std::string pattern)
-: Individual(range_begin,range_end,pattern)
+: Pmx(range_begin,range_end,pattern)
 {
 }
 
-Sx::Sx(const Individual & origin) : Individual(origin)
+Sx::Sx(const Individual & origin) : Pmx(origin)
 {
 }
 
@@ -15,42 +15,7 @@ Sx::~Sx()
 {
 }
 
-void Sx::rangeRand(int left, int right)
-{
-  while(left <= right)
-    {
-      int op = Utils::randEx(0,7);
-      switch(op)
-	{
-	case 0:
-	  code[left++] = '+';
-	  break;
-	case 1:
-	  code[left++] = '-';
-	  break;
-	case 2:
-	  code[left++] = '>';
-	  break;
-	case 3:
-	  code[left++] = '<';
-	  break;
-	case 4:
-	  code[left++] = '[';
-	  break;
-	case 5:
-	  code[left++] = ']';
-	  break;
-	case 6:
-	  code[left++] = ',';
-	  break;
-	case 7:
-	  code[left++] = '.';
-	  break;
-	}
-    }
-}
-
-std::list<Individual::Box> Sx::crossingOver(Individual & other)
+list<Individual::Box> Sx::crossingOver(Individual & other)
 {
   Sx * a = new Sx(*this);
   Sx * b = new Sx(other);
@@ -59,8 +24,8 @@ std::list<Individual::Box> Sx::crossingOver(Individual & other)
 
   while(k--)
     {
-      int aIt = Utils::randEx(0,toString().length()-1);
-      int bIt = Utils::randEx(0,other.toString().length()-1);
+      int aIt = Utils::randr(0,toString().length()-1);
+      int bIt = Utils::randr(0,other.toString().length()-1);
       Utils::swapc(a->code[aIt],b->code[bIt]);
     }
 
@@ -74,15 +39,7 @@ std::list<Individual::Box> Sx::crossingOver(Individual & other)
   return ret;
 }
 
-void Sx::mutate()
+Individual * Sx::clone()
 {
-  int a = Utils::randEx(0,code.length()-1);
-  int b = Utils::randEx(0,code.length()-1);
-
-  if(a < b)
-    rangeRand(a,b);
-  else
-    rangeRand(b,a);
-
-  eval();
+  return new Sx(*this);
 }

@@ -3,7 +3,7 @@
 using namespace std;
 
 Pmx::Pmx(int range_begin, int range_end, std::string pattern)
-: Individual(range_begin,range_end,pattern)
+  : Individual(range_begin,range_end,pattern)
 {
 }
 
@@ -15,46 +15,11 @@ Pmx::~Pmx()
 {
 }
 
-void Pmx::rangeRand(int left, int right)
-{
-  while(left <= right)
-    {
-      int op = Utils::randEx(0,7);
-      switch(op)
-	{
-	case 0:
-	  code[left++] = '+';
-	  break;
-	case 1:
-	  code[left++] = '-';
-	  break;
-	case 2:
-	  code[left++] = '>';
-	  break;
-	case 3:
-	  code[left++] = '<';
-	  break;
-	case 4:
-	  code[left++] = '[';
-	  break;
-	case 5:
-	  code[left++] = ']';
-	  break;
-	case 6:
-	  code[left++] = ',';
-	  break;
-	case 7:
-	  code[left++] = '.';
-	  break;
-	}
-    }
-}
-
 std::list<Individual::Box> Pmx::crossingOver(Individual & other)
 {
-  int width = Utils::randEx(1,Utils::min(code.length(),other.toString().length()));
-  int offsetA = Utils::randEx(0,code.length()-width);
-  int offsetB = Utils::randEx(0,other.toString().length()-width);
+  int width = Utils::randr(1,Utils::min(code.length(),other.toString().length()));
+  int offsetA = Utils::randr(0,code.length()-width);
+  int offsetB = Utils::randr(0,other.toString().length()-width);
 
   Pmx * a = new Pmx(*this);
   Pmx * b = new Pmx(other);
@@ -72,15 +37,44 @@ std::list<Individual::Box> Pmx::crossingOver(Individual & other)
   return ret;
 }
 
-void Pmx::mutate()
+void Pmx::mutate(double pm)
 {
-  int a = Utils::randEx(0,code.length()-1);
-  int b = Utils::randEx(0,code.length()-1);
+  for(int i = 0; i < code.length(); i++)
+    if(Utils::randd() <= pm)
+      {
+	int op = Utils::randr(0,7);
+	switch(op)
+	  {
+	  case 0:
+	    code[i] = '+';
+	    break;
+	  case 1:
+	    code[i] = '-';
+	    break;
+	  case 2:
+	    code[i] = '>';
+	    break;
+	  case 3:
+	    code[i] = '<';
+	    break;
+	  case 4:
+	    code[i] = '[';
+	    break;
+	  case 5:
+	    code[i] = ']';
+	    break;
+	  case 6:
+	    code[i] = ',';
+	    break;
+	  case 7:
+	    code[i] = '.';
+	  }
 
-  if(a < b)
-    rangeRand(a,b);
-  else
-    rangeRand(b,a);
+	eval();
+      }
+}
 
-  eval();
+Individual * Pmx::clone()
+{
+  return new Pmx(*this);
 }

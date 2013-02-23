@@ -4,17 +4,16 @@
 #include <iostream>
 #include <list>
 
-#include "Individual.hpp"
+#include "Pmx.hpp"
 
-class Sx : public Individual
+class Sx : public Pmx
 {
-  void rangeRand(int left, int right);
  public:
   Sx(int range_begin, int range_end, std::string pattern);
   Sx(const Individual & origin);
   ~Sx();
   std::list<Box> crossingOver(Individual & other);
-  void mutate();
+  Individual * clone();
 };
 
 #endif

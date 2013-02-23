@@ -1,0 +1,17 @@
+LIBS=
+CC=g++
+
+SOURCES=printer.cpp AlgorithmFactory.cpp Evolution.cpp Roulette.cpp Tournament.cpp Interpreter.cpp Memory.cpp IndividualFactory.cpp KindFactory.cpp Eru.cpp Pmx.cpp Sx.cpp Rsx.cpp Individual.cpp Utils.cpp Exception.cpp
+HEADERS=
+OBJECTS=$(SOURCES:.cpp=.o)
+
+all: printer.out
+
+printer.out: $(OBJECTS) 
+	$(CC) -o $@ $(OBJECTS) $(LIBS)
+
+$(OBJECTS): %.o: %.cpp $(HEADERS)
+	$(CC) -c $< -o $@
+	
+clean:
+	-rm -rf printer.out *.o *~

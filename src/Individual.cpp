@@ -44,6 +44,16 @@ Individual::Individual(int range_begin, int range_end, string pattern)
   eval();
 }
 
+Individual::Individual(string code, string pattern)
+{
+  this->pattern = pattern;
+  this->code = code;
+  range_max = -1;
+  fitness = 0;
+
+  eval();
+}
+
 Individual::~Individual()
 {
 }

@@ -1,13 +1,13 @@
-EXE=bfgcv
+EXE=bfevo.out
 
 all: $(EXE)
 
-$(EXE): src/bfgcv
-	make -C src/bfgcv
-	cp src/bfgcv/bfgcv $(EXE)
+$(EXE): src/bfevo.out
+	make -C src/
+	cp src/bfevo.out $(EXE)
 
 clean: 
-	make -C src/bfgcv clean
+	make -C src/ clean
 	rm -f $(EXE)
 
 .PHONY: all, clean

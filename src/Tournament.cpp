@@ -13,7 +13,7 @@ Tournament::Tournament(IndividualFactory * factory) : Evolution(factory)
 Tournament::Tournament(IndividualFactory * factory, int initialSize, int size, int q,
 		       double pc, double pm, int n) : Evolution(factory,initialSize,size)
 {
-  this->q = q;
+  this->q = q > 0 ? q : 1;
   this->pc = pc;
   this->pm = pm;
   this->n = n;
@@ -42,33 +42,27 @@ void Tournament::run()
 	  population.pop_back();
 	}
 
-      // roulette preselection & crossing over
-      long long sum[population.size()];
+      // tournament preselection & crossing over
       Individual * ptr[population.size()];
       int it = 0;
       for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
-  	{
-  	  sum[it] = i->individual->getFitness();
-  	  ptr[it++] = i->individual;
-  	}
-      Utils::invertll(sum,0,population.size()-1);
-      for(int i = 1; i < population.size(); i++)
-  	sum[i] += sum[i-1];
+	ptr[it++] = i->individual;
 
       list<Individual::Box> newPopulation;
       while(newPopulation.size() < size)
   	{
-  	  int a = Utils::randr(0,sum[population.size()-1]-1);
-  	  int b = Utils::randr(0,sum[population.size()-1]-1);
-  	  int aIt = 0;
-  	  int bIt = 0;
-  	  while(a >= sum[aIt])
-  	    aIt++;
-  	  while(b >= sum[bIt])
-  	    bIt++;
+	  list<Individual::Box> tournament1;
+	  list<Individual::Box> tournament2;
+	  while(tournament1.size() < q)
+	    tournament1.push_back(ptr[Utils::randr(0,population.size())]->box());
+	  while(tournament2.size() < q)
+	    tournament2.push_back(ptr[Utils::randr(0,population.size())]->box());
+	  tournament1.sort();
+	  tournament2.sort();
+
 	  if(Utils::randd() <= pc) // crossing over with pc
 	    {
-	      list<Individual::Box> crossProducts = ptr[aIt]->crossingOver(*(ptr[bIt]));
+	      list<Individual::Box> crossProducts = tournament1.front().individual->crossingOver(*(tournament2.front().individual));
 	      while(!crossProducts.empty())
 		{
 		  newPopulation.push_back(crossProducts.front());
@@ -77,8 +71,8 @@ void Tournament::run()
 	    }
 	  else
 	    {
-	      newPopulation.push_back(ptr[aIt]->clone()->box());
-	      newPopulation.push_back(ptr[bIt]->clone()->box());
+	      newPopulation.push_back(tournament1.front().individual->clone()->box());
+	      newPopulation.push_back(tournament2.front().individual->clone()->box());
 	    }
   	}
 

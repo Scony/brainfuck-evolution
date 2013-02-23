@@ -12,8 +12,8 @@ int main(int argc, char * argv[])
   try
     {
       if(argc < 12)
-	throw new Exception((string)"To few arguments. Usage:\n ./command [individual kind] [range begin] [range end] [pattern]"
-			    + (string)" [initial size] [size] [q] [pc] [pm] [n]");
+	throw new Exception((string)"To few arguments. Usage:\n ./command [algorithm kind] [individual kind] [range begin]"
+			    + (string)" [range end] [pattern] [initial size] [size] [q] [pc] [pm] [n]");
       srand(time(0));
       cout << "Pattern:" << argv[5] << endl;
       KindFactory kf(Utils::str2int(argv[2]),Utils::str2int(argv[3]),Utils::str2int(argv[4]),argv[5]);

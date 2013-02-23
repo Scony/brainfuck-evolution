@@ -27,10 +27,15 @@ void Genetic::run()
 {
   while(1)
     {
-      // sort & cut
+      // sort
       population.sort();
       cout << population.size() << "::" << population.front().individual->getFitness() << "::";
-      cout << Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::" << population.front().individual->toString() << endl;
+      cout /*<< Interpreter::interpret(population.front().individual->toString()).substr(0,10) << "::"*/ << population.front().individual->toString();
+      for(list<Individual::Box>::iterator i = population.begin(); i != population.end(); i++)
+	cout << " " << i->individual->getFitness();
+      cout << endl;
+
+      // cut
       while(population.size() > size)
 	{
 	  population.back().remove();

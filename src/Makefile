@@ -1,7 +1,7 @@
 LIBS=
 CC=g++
 
-SOURCES=main.cpp Evolution.cpp Genetic.cpp Interpreter.cpp Memory.cpp IndividualFactory.cpp KindFactory.cpp Eru.cpp Pmx.cpp Sx.cpp Rsx.cpp Individual.cpp Utils.cpp Exception.cpp
+SOURCES=main.cpp AlgorithmFactory.cpp Evolution.cpp Roulette.cpp Tournament.cpp Interpreter.cpp Memory.cpp IndividualFactory.cpp KindFactory.cpp Eru.cpp Pmx.cpp Sx.cpp Rsx.cpp Individual.cpp Utils.cpp Exception.cpp
 HEADERS=
 OBJECTS=$(SOURCES:.cpp=.o)
 

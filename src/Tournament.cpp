@@ -1,8 +1,8 @@
-#include "Genetic.hpp"
+#include "Tournament.hpp"
 
 using namespace std;
 
-Genetic::Genetic(IndividualFactory * factory) : Evolution(factory)
+Tournament::Tournament(IndividualFactory * factory) : Evolution(factory)
 {
   q = 5;
   pc = 0.9;
@@ -10,8 +10,8 @@ Genetic::Genetic(IndividualFactory * factory) : Evolution(factory)
   n = 2;
 }
 
-Genetic::Genetic(IndividualFactory * factory, int initialSize, int size, int q,
-		 double pc, double pm, int n) : Evolution(factory,initialSize,size)
+Tournament::Tournament(IndividualFactory * factory, int initialSize, int size, int q,
+		       double pc, double pm, int n) : Evolution(factory,initialSize,size)
 {
   this->q = q;
   this->pc = pc;
@@ -19,11 +19,11 @@ Genetic::Genetic(IndividualFactory * factory, int initialSize, int size, int q,
   this->n = n;
 }
 
-Genetic::~Genetic()
+Tournament::~Tournament()
 {
 }
 
-void Genetic::run()
+void Tournament::run()
 {
   while(1)
     {

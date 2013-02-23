@@ -7,12 +7,12 @@ Individual::Individual(int range_begin, int range_end, string pattern)
   this->pattern = pattern;
   range_max = range_end;
   code = "";
-  rate = 0;
+  fitness = 0;
 
-  int length = Utils::randEx(range_begin,range_end);
+  int length = Utils::randr(range_begin,range_end);
   for(int i = 0; i < length; i++)
     {
-      int op = Utils::randEx(0,7);
+      int op = Utils::randr(0,7);
       switch(op)
 	{
 	case 0:
@@ -52,7 +52,7 @@ void Individual::shuffle()
 {
   for(int i = 0; i < code.length(); i++)
     {
-      int j = Utils::randEx(1,code.length()-1);
+      int j = Utils::randr(1,code.length()-1);
       Utils::swapc(code[i],code[j]);
     }
 }
@@ -64,19 +64,19 @@ void Individual::eval()
     case 1:			// simple ascii codes difference
       {
 	string output = Interpreter::interpret(code);
-	rate = 0;
+	fitness = 0;
 	for(int i = 0; i < pattern.length(); i++)
 	  if(i < output.length())
-	    rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
+	    fitness += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]);
 	  else
-	    rate += 255;
+	    fitness += 255;
       }
       break;
     case 2:			// floating pattern
       {
 	string output = Interpreter::interpret(code);
 	output = output.substr(0,pattern.length()*5);
-	rate = 0;
+	fitness = 0;
 
 	long long min = 99999999;
 
@@ -95,14 +95,14 @@ void Individual::eval()
 		min = local;
 	    }
   
-	rate = min;
+	fitness = min;
       }
       break;
     case 3:			// floating pattern + code length
       {
 	string output = Interpreter::interpret(code);
 	output = output.substr(0,pattern.length()*5);
-	rate = 0;
+	fitness = 0;
 
 	long long min = 99999999;
 	int minj = 99999999;
@@ -125,20 +125,20 @@ void Individual::eval()
 		}
 	    }
   
-	rate = min * output.length() + minj;
+	fitness = min * output.length() + minj;
       }
       break;
     default:			// simple ascii difference + code length
       {
 	string output = Interpreter::interpret(code);
-	rate = 0;
+	fitness = 0;
 	for(int i = 0; i < pattern.length(); i++)
 	  if(i < output.length())
-	    rate += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]) * range_max;
+	    fitness += abs((int)(unsigned char)pattern[i] - (int)(unsigned char)output[i]) * range_max;
 	  else
-	    rate += 255 * range_max;
+	    fitness += 255 * range_max;
 
-	rate += code.length();
+	fitness += code.length();
       }
       break;
     }
@@ -146,7 +146,7 @@ void Individual::eval()
 
 bool Individual::operator<(const Individual & individual) const
 {
-  return rate > individual.rate;
+  return fitness > individual.fitness;
 }
 
 list<Individual::Box> Individual::crossingOver(Individual & other)
@@ -157,13 +157,18 @@ list<Individual::Box> Individual::crossingOver(Individual & other)
   return ret;
 }
 
-void Individual::mutate()
+void Individual::mutate(double pm)
 {
 }
 
-long long Individual::getRate()
+Individual * Individual::clone()
 {
-  return rate;
+  return new Individual(*this);
+}
+
+long long Individual::getFitness()
+{
+  return fitness;
 }
 
 Individual::Box Individual::box()
@@ -187,7 +192,7 @@ Individual::Box::~Box()
 
 bool Individual::Box::operator<(const Box & box) const
 {
-  return individual->getRate() < box.individual->getRate();
+  return individual->getFitness() < box.individual->getFitness();
 }
 
 void Individual::Box::remove()

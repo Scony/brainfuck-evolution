@@ -12,7 +12,7 @@ class Individual
 protected:
   std::string code;
   std::string pattern;
-  long long rate;
+  long long fitness;
   int range_max;
 
   void shuffle();
@@ -31,8 +31,9 @@ public:
   virtual ~Individual();
   bool operator<(const Individual & individual) const;
   virtual std::list<Box> crossingOver(Individual & other);
-  virtual void mutate();
-  long long getRate();
+  virtual void mutate(double pm);
+  virtual Individual * clone();
+  long long getFitness();
   Box box();
   std::string toString();
 };

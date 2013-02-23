@@ -9,21 +9,19 @@
 
 class Evolution
 {
+protected:
   IndividualFactory * factory;
 
   std::list<Individual::Box> population;
-  int startPopulation;
-  int populationCut;
-  int mutations;
-  int injections;
+  int initialSize;
+  int size;
 
   void fillPopulation(int count);
- public:
+public:
   Evolution(IndividualFactory * factory);
-  Evolution(IndividualFactory * factory, int startPopulation,
-	    int populationCut, int mutations, int injections);
-  ~Evolution();
-  void run();
+  Evolution(IndividualFactory * factory, int initialSize, int size);
+  virtual ~Evolution();
+  virtual void run();
 };
 
 #endif

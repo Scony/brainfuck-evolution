@@ -2,6 +2,11 @@
 
 using namespace std;
 
+int Utils::abs(int in)
+{
+  return in >= 0 ? in : -in;
+}
+
 void Utils::swap(int & a, int & b)
 {
   int tmp = a;
@@ -42,7 +47,14 @@ int Utils::str2int(string in)
   return out;
 }
 
-int Utils::randEx(int range_min, int range_max)
+double Utils::str2double(std::string in)
+{
+  double out;
+  sscanf(in.c_str(),"%lf",&out);
+  return out;
+}
+
+int Utils::randr(int range_min, int range_max)
 {
   int tmp_range;
   if ( range_max >= range_min ) range_max -= range_min;
@@ -53,6 +65,11 @@ int Utils::randEx(int range_min, int range_max)
       range_max = tmp_range;
     }
   return (int)(range_max ? range_min + rand() / (RAND_MAX + 1.0) * (double) (range_max + 1) : range_min);
+}
+
+double Utils::randd()
+{
+  return (double)rand() / RAND_MAX;
 }
 
 void Utils::invertll(long long * array, int left, int right)

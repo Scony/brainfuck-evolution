@@ -5,9 +5,10 @@
 
 #include "IndividualFactory.hpp"
 #include "Individual.hpp"
-#include "Pmx.hpp"
-#include "Sx.hpp"
-#include "Rsx.hpp"
+// #include "Pmx.hpp"
+// #include "Sx.hpp"
+// #include "Rsx.hpp"
+#include "Eru.hpp"
 
 class KindFactory : public IndividualFactory
 {

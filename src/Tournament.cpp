@@ -70,9 +70,9 @@ void Tournament::run()
 	  list<Individual::Box> tournament1;
 	  list<Individual::Box> tournament2;
 	  while(tournament1.size() < q)
-	    tournament1.push_back(ptr[Utils::randr(0,population.size())]->box());
+	    tournament1.push_back(ptr[Utils::randr(0,population.size()-1)]->box());
 	  while(tournament2.size() < q)
-	    tournament2.push_back(ptr[Utils::randr(0,population.size())]->box());
+	    tournament2.push_back(ptr[Utils::randr(0,population.size()-1)]->box());
 	  tournament1.sort();
 	  tournament2.sort();
 

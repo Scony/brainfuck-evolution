@@ -24,7 +24,10 @@ int main(int argc, char * argv[])
 	Debug::instance()->on = false;
       Debug::instance()->threshold = Utils::str2int(argv[13]);
 
-      cout << "Pattern:" << argv[5] << endl;
+      cout << "Params: ";
+      for(int i = 1; i < argc; i++)
+	cout << argv[i] << " ";
+      cout << "\nPattern:" << argv[5] << endl;
       KindFactory kf(Utils::str2int(argv[2]),Utils::str2int(argv[3]),Utils::str2int(argv[4]),argv[5]);
       IndividualFactory * ifac = &kf;
       AlgorithmFactory af(

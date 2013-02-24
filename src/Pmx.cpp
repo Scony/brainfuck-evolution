@@ -15,7 +15,7 @@ Pmx::~Pmx()
 {
 }
 
-std::list<Individual::Box> Pmx::crossingOver(Individual & other)
+list<Individual::Box> Pmx::crossingOver(Individual & other)
 {
   int width = Utils::randr(1,Utils::min(code.length(),other.toString().length()));
   int offsetA = Utils::randr(0,code.length()-width);

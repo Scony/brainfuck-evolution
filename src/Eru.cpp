@@ -15,7 +15,7 @@ Eru::~Eru()
 {
 }
 
-std::list<Individual::Box> Eru::crossingOver(Individual & other)
+list<Individual::Box> Eru::crossingOver(Individual & other)
 {
   Eru * a = new Eru(*this);
   Eru * b = new Eru(other);

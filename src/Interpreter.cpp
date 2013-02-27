@@ -4,30 +4,6 @@
 
 using namespace std;
 
-// Interpreter::Interpreter(string code)
-// {
-//   this->code = code;
-//   hashLen = code.length();
-//   hash = new int[hashLen];
-//   stack<int> hill;
-//   for(int i = 0; i < code.length(); i++)
-//     {
-//       if(code[i] == '[')
-// 	hill.push(i);
-//       if(code[i] == ']')
-// 	if(hill.empty())
-// 	  throw new Exception("Unexpected bracket !");
-// 	else
-// 	  {
-// 	    hash[hill.top()] = i;
-// 	    hash[i] = hill.top();
-// 	    hill.pop();
-// 	  }
-//     }
-//   if(!hill.empty())
-//     throw new Exception("Too much brackets !");
-// }
-
 string Interpreter::interpret(string code)
 {
   Memory memory;
@@ -43,7 +19,6 @@ string Interpreter::interpret(string code)
 
   for(int i = 0; i < code.length(); i++)
     {
-      // cout << "####" << i << "####\n";
       switch(code[i])
 	{
 	case '+':
@@ -67,7 +42,6 @@ string Interpreter::interpret(string code)
 	case '[':
 	  if(!memory.read())
 	    {
-	      //idz za odpowiedni zamykajacy
 	      int bCount = 0;
 	      int j = i + 1;
 	      i = code.length();
@@ -105,7 +79,7 @@ string Interpreter::interpret(string code)
 	    }
 	  else
 	    i = code.length(); //global break
-      }
+	}
     }
 
   return out;

@@ -1,11 +1,10 @@
 #ifndef BF_INTERPRETER
 #define BF_INTERPRETER
 
-#define LOOP_CUT 10000
+#define LOOP_CUT 1000
 
 #include <iostream>
 
-// #include "Exception.hpp"
 #include "Memory.hpp"
 
 class Interpreter

@@ -77,8 +77,8 @@ string Interpreter::interpret(string code)
 		  hill.pop();
 		}
 	    }
-	  else
-	    i = code.length(); //global break
+	  // else
+	  //   i = code.length(); //global break
 	}
     }
 

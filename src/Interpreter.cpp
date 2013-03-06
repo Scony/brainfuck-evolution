@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string Interpreter::interpret(string code)
+string Interpreter::interpret(string & code)
 {
   Memory memory;
 
@@ -58,14 +58,35 @@ string Interpreter::interpret(string code)
 			}
 		      bCount--;
 		    }
-		}		      
+		}
 	    }
 	  else
 	    {
 	      hill.push(i);
 	      hash[i]++;
 	      if(hash[i] > LOOP_CUT)
-		i = code.length(); //global break
+		{
+		  int bCount = 0;
+		  code[i] = '0';
+		  int j = i + 1;
+		  for(; j < code.length(); j++)
+		    {
+		      if(code[j] == '[')
+			bCount++;
+		      if(code[j] == ']')
+			{
+			  if(!bCount)
+			    {
+			      i = j;
+			      break;
+			    }
+			  bCount--;
+			}
+		      code[j] = '0';
+		    }
+		  if(j < code.length())
+		    code[j] = '0';
+		}
 	    }
 	  break;
 	case ']':
@@ -77,8 +98,8 @@ string Interpreter::interpret(string code)
 		  hill.pop();
 		}
 	    }
-	  // else
-	  //   i = code.length(); //global break
+	  else
+	    code[i] = '0';
 	}
     }
 

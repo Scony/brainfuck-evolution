@@ -58,7 +58,7 @@ list<Individual::Box> Eru::crossingOver(Individual & other)
 void Eru::mutate(double pm)
 {
   for(int i = 0; i < code.length(); i++)
-    if(Utils::randd() <= pm)
+    if(Utils::randd() <= pm || code[i] == '0')
       {
 	int op = Utils::randr(0,7);
 	switch(op)

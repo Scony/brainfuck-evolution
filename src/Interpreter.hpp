@@ -10,7 +10,7 @@
 class Interpreter
 {
  public:
-  static std::string interpret(std::string code);
+  static std::string interpret(std::string & code);
 };
 
 #endif
